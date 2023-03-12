@@ -71,6 +71,7 @@ def app():
         ut.centered_text("Data after scaling numeric variables", 45)
         st.table(data.head())
 
+        # add a condition when the target variable is wrong
         if target_variable != "":
             X_train, X_test, y_train, y_test = split_data(data, target_variable, test_size, random_state)
             train_dataset = X_train.to_csv(index=True).encode('utf-8')
