@@ -1,20 +1,16 @@
-import streamlit as st
-import pandas as pd
-from sklearn import datasets
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 import pickle
 import pandas as pd
-import numpy as np
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import components.HtmlUtils as ut
 import plotly.express as px
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import confusion_matrix
+
 
 def load_data(file):
     """ load data as csv from the os, and skip the lines where the number of columns is greater than number of
@@ -67,7 +63,7 @@ def add_parameter_ui(clf_name):
         params["kernel"] = kernel
     else:
         # penalty = st.sidebar.selectbox("Penalty", ("l1", "l2", "elasticnet"))
-        penalty = st.sidebar.selectbox("Penalty", ("l2","l2"))
+        penalty = st.sidebar.selectbox("Penalty", ("l2", "l2"))
         C = st.sidebar.slider("C", 0.01, 10.0)
         params["penalty"] = penalty
         params["C"] = C
@@ -90,8 +86,6 @@ def get_classifier(clf_name, params):
 def app():
     file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
-
-
     if file is not None:
         st.sidebar.title('Data Preprocessing')
         missing_values_threshold = st.sidebar.slider("Missing values threshold", min_value=0.0, max_value=1.0,
@@ -101,10 +95,10 @@ def app():
         random_state = st.sidebar.number_input("Random state", value=25)
 
         data = load_data(file)
-        cleaning_options = ['handle missing values', 'encode categorical variables', 'scale numerical variables', 'split data']
+        cleaning_options = ['handle missing values', 'encode categorical variables', 'scale numerical variables',
+                            'split data']
 
         selected_option = st.multiselect('Select option:', cleaning_options)
-
 
         if 'handle missing values' in selected_option:
             data = handle_missing_values(data, missing_values_threshold)
@@ -118,7 +112,7 @@ def app():
             data = scale_numeric_variables(data)
             # ut.centered_text("Data after scaling numeric variables", 45)
             # st.table(data.head())
-        lines_control = st.slider('select number of rows to show : ', 1 , len(data), 10)
+        lines_control = st.slider('select number of rows to show : ', 1, len(data), 10)
         st.download_button(
             "Download new data",
             data.to_csv(index=True).encode('utf-8'),
@@ -175,7 +169,7 @@ def app():
                     "text/csv",
                     key='download4-csv'
                 )
-            elif target_variable not in data.columns and target_variable !='':
+            elif target_variable not in data.columns and target_variable != '':
                 st.sidebar.warning("no such column name")
 
         st.sidebar.title("Training")
