@@ -121,7 +121,7 @@ def app():
             key='data_download-csv'
         )
         st.write('new data:')
-        st.table(data.head(lines_control))
+        st.dataframe(data.head(lines_control))
         if 'split data' in cleaning_options:
             if target_variable != "":
                 X_train, X_test, y_train, y_test = split_data(data, target_variable, test_size, random_state)
