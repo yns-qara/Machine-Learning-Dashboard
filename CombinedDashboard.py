@@ -197,10 +197,12 @@ def app():
             st.write(f"Accuracy = {acc}")
             st.progress(acc)
             st.write('confusion matrix : ')
-            cm = confusion_matrix(y_test, y_pred)
-            fig = px.imshow(cm, labels=dict(x="Predicted", y="True", color="Count"))
-            st.plotly_chart(fig)
+            # cm = confusion_matrix(y_test, y_pred)
+            # fig = px.imshow(cm, labels=dict(x="Predicted", y="True", color="Count"))
+            # st.plotly_chart(fig)
+
             st.write("Download the trained model")
+
             model_download = st.button("Download")
             if model_download:
                 filename = f"{classifier}.pkl"
