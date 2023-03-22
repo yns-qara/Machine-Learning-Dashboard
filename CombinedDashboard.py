@@ -196,7 +196,7 @@ def app():
 
             st.write(f"Accuracy = {acc}")
             st.progress(acc)
-            st.write('confusion matrix : ')
+            # st.write('confusion matrix : ')
             # cm = confusion_matrix(y_test, y_pred)
             # fig = px.imshow(cm, labels=dict(x="Predicted", y="True", color="Count"))
             # st.plotly_chart(fig)
