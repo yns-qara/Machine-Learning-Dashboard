@@ -20,6 +20,11 @@ def load_data(file):
     return data
 
 
+def load_model(file):
+    model = pickle.load(file)
+    return model
+
+
 def handle_missing_values(data, threshold):
     missing_values = data.isnull().sum() / len(data)
     missing_values = missing_values[missing_values >= threshold].index
@@ -217,7 +222,28 @@ def app():
         elif ml_problem == 'Forecasting':
             pass
 
+        st.sidebar.title('PREDICTION')
 
+        model_file = st.sidebar.file_uploader('Upload a trained model', type="pkl")
+
+        if model_file is not None:
+            st.title('PREDICTION')
+            model = load_model(model_file)
+            model_features = model.feature_names_in_
+            new_data_record = []
+            for feature in model_features:
+                n = st.number_input(feature)
+                new_data_record.append(n)
+
+            predict_button = st.button('predict')
+            if predict_button:
+                prediction_result = model.predict([new_data_record])
+                if prediction_result == 1:
+                    st.header('Positive result')
+                elif prediction_result == 0:
+                    st.header('Negative result')
+                else:
+                    st.write('Neutral / Other')
 
 
 
@@ -227,3 +253,7 @@ def app():
 
 if __name__ == "__main__":
     app()
+
+# TODO : what are serialization libraries
+# TODO : create a class that encapsulates the model with the metadata and export it with a serialization library (pickle)
+# TODO : use this metadata to determine the type of input fields as well as the purpose of the model (title of the dataset)
